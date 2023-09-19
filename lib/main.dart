@@ -6,13 +6,12 @@ import 'package:flutter_application_1/LoginPages.dart';
 import 'InitPages.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-      // options: DefaultFirebaseOptions.currentPlatform,
-      );
+  //WidgetsFlutterBinding.ensureInitialized();
+  //await Firebase.initializeApp(
+  // options: DefaultFirebaseOptions.currentPlatform,
+  //    );
 
   runApp(const MyApp());
- 
 }
 
 class MyApp extends StatelessWidget {
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'GOODINSHIG.App',
-      home: LoginPages(),
+      home: InitPages(),
     );
   }
 }
