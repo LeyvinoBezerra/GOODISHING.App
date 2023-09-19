@@ -20,7 +20,7 @@ class RegisterPages extends StatelessWidget {
                   const SizedBox(
                     height: 220,
                     child: Image(
-                      image: AssetImage('assets/images/logorecortada.png'),
+                      image: AssetImage('assets/images/LOGO.png'),
                     ),
                   ),
                   const TextField(
