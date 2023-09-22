@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'LoginPages.dart';
 import 'RegisterPages.dart';
 
-import 'LoginPages.dart';
-import 'RegisterPages.dart';
-
 class InitPages extends StatelessWidget {
   const InitPages({super.key});
 
@@ -14,17 +11,17 @@ class InitPages extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        child: Column(
+        child: Stack(
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: const Image(
-                image: AssetImage('assets/imagens/loginBack.png'),
+                image: AssetImage('assets/images/loginBack.png'),
               ),
             ),
             Positioned(
-              bottom: 50,
+              bottom: 100,
               left: 80,
               child: Row(
                 children: [

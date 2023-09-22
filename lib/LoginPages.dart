@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'HomePages.dart';
 
+
 class LoginPages extends StatelessWidget {
   const LoginPages({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(232, 240, 9, 9),
+      backgroundColor: Color.fromARGB(255, 249, 248, 248),
       body: Center(
         child: SingleChildScrollView(
           child: SizedBox(
