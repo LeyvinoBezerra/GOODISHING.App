@@ -25,6 +25,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+
+
 android {
     namespace "com.example.flutter_application_1"
     compileSdkVersion flutter.compileSdkVersion
@@ -69,7 +71,17 @@ android {
 flutter {
     source '../..'
 }
-
+  //  );
+apply plugin:"com.android.application"
+apply plugin:"com.google.gms.google-services"
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    // Import the Firebase BoM
+  implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+
+
+  // TODO: Add the dependencies for Firebase products you want to use
+  // When using the BoM, don't specify versions in Firebase dependencies
+  implementation("com.google.firebase:firebase-analytics-ktx")
+
 }

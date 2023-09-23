@@ -1,65 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'HomePages.dart';
-
 
 class LoginPages extends StatelessWidget {
   const LoginPages({super.key});
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 249, 248, 248),
-      body: Center(
-        child: SingleChildScrollView(
-          child: SizedBox(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+            child: Stack(children: [
+          SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 220,
-                      child: Image(
-                        image: AssetImage('assets/images/LOGO.png'),
-                      ),
-                    ),
-                    const TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 50),
-                    Positioned(
-                      height: 100,
-                      bottom: 100,
-                      right: 50,
-                      left: 200,
-                      child: Row(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () => (HomePages()),
-                            child: const Text('LOG IN'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            child: const Image(
+              image: AssetImage('assets/images/loginBack.png'),
             ),
           ),
-        ),
-      ),
-    );
+          Positioned(
+            bottom: 50,
+            left: 80,
+            child: Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () => Get.to(HomePages()),
+                  child: const Text('LOG IN'),
+                ),
+                const SizedBox(width: 30),
+                // ElevatedButton(
+                   // onPressed: () => Get.to(const RegisterPages()),
+                   // child: const Text('REGISTRAR'))
+              ],
+            ),
+          )
+        ])));
   }
 }
