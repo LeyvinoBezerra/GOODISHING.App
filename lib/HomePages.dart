@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_application_1/LoginPages.dart';
+import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:video_player/video_player.dart';
 import 'package:location/location.dart';
 
@@ -22,12 +25,21 @@ class _HomeScreenState extends State<HomeScreen> {
   CameraController? _cameraController;
   VideoPlayerController? _videoController;
   Location _location = Location();
-
+//cria objeto autenticador na api do google
+  late GoogleSignIn _googleSignIn;
   @override
   void initState() {
     super.initState();
     _initializeCamera();
     _initializeVideoPlayer();
+    _googleSignIn = GoogleSignIn(
+    scopes: [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+      'https://www.googleapis.com/auth/userinfo.profile',
+      'openid',
+      'email',
+    ]);
   }
 
   Future<void> _initializeCamera() async {
@@ -66,6 +78,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              _googleSignIn.disconnect();
+              Get.off(LoginPages());
+            }, label: Text("Deslogar")),
       appBar: AppBar(
         title: Text('Localizador de Área'),
       ),
