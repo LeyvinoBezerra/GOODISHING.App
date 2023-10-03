@@ -58,16 +58,8 @@ class _LoginPagesState extends State<LoginPages> {
                     ElevatedButton(
                       onPressed: () async {
                         //pega as credenciais do usuário logado
-<<<<<<< HEAD
-
                         GoogleSignInAccount? _googleSignInAccount =
                             await _googleSignIn.signIn();
-=======
-                        print("xxxxxxxxxxxxx");
-                        GoogleSignInAccount? _googleSignInAccount =
-                            await _googleSignIn.signIn();
-                        print("yyyyyyyyyyyyy");
->>>>>>> ba5b1ededa3ca129bad009f57e34161f1c0d641d
                         print("account ${_googleSignInAccount}");
                         //Nulo - Login não deu certo
                         //GoogleSignInAccount - Login deu certo

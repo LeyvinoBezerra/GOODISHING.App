@@ -35,9 +35,16 @@ dependencies:
   firebase_core: ^2.15.1
   flutter:
     sdk: flutter
+  gallery_saver: ^2.3.2
   get: ^4.6.5
   google_sign_in: ^6.1.5
+  image_gallery_saver: ^2.0.3
+  image_picker: ^1.0.4
   location: ^5.0.3
+  metadata_god: ^0.5.0
+  native_exif: ^0.5.0
+  permission_handler: ^11.0.0
+  screenshot: ^2.1.0
   video_player: ^2.7.1
      
 dev_dependencies:
