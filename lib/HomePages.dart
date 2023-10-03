@@ -32,10 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _initializeCamera();
     _initializeVideoPlayer();
-    _googleSignIn = GoogleSignIn(scopes: [
-      'https://www.googleapis.com/auth/userinfo.email',
-      'https://www.googleapis.com/auth/userinfo.profile',
-    ]);
   }
 
   Future<void> _initializeCamera() async {
@@ -74,12 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            _googleSignIn.disconnect();
-            Get.off(LoginPages());
-          },
-          label: Text("Deslogar")),
       appBar: AppBar(
         title: Text('Localizador de Área'),
       ),
