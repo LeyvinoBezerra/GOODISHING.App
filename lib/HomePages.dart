@@ -1,15 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+import 'package:flutter_application_1/firebase/storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:native_exif/native_exif.dart';
-import 'package:permission_handler/permission_handler.dart' as permission;
-import 'package:screenshot/screenshot.dart';
-import 'package:video_player/video_player.dart';
 import 'package:location/location.dart';
+import 'package:screenshot/screenshot.dart';
 
 class HomePages extends StatelessWidget {
   const HomePages({super.key});
@@ -35,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
   //VideoPlayerController? _videoController;
   final ImagePicker _imagePicker = ImagePicker();
   final Location _location = Location();
+
+  bool _isLoading = false;
 
 //cria objeto autenticador na api do google
   late GoogleSignIn _googleSignIn;
@@ -90,12 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
       imagemFinal = ImagemFinal(xFile: xFile, description: description);
     });
     var screenshot = await screenshotController.captureFromWidget(imagemFinal);
-    var isSaved = await ImageGallerySaver.saveImage(
-      screenshot,
-      quality: 100
-    );
-print("finalizou ${isSaved}");
-await ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Imagem salva com sucesso!")));
+    var isSaved = await ImageGallerySaver.saveImage(screenshot, quality: 100);
+    print("finalizou ${isSaved}");
+    await ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Imagem salva com sucesso!")));
     // if (_cameraController == null || !_cameraController!.value.isInitialized) {
     //   print('Error: select a camera first.');
     //   return null;
@@ -175,6 +172,26 @@ await ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Imagem 
             },
             child: const Text('Obter Localização'),
           ),
+
+          (xFile != null)
+              ? (_isLoading
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
+
+                        await StorageClient().uploadImageToFirebase(
+                            imageFile: File(xFile!.path));
+
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      },
+                      child: const Text('Enviar foto'),
+                    ))
+              : const SizedBox.shrink(),
         ],
       ),
     );
@@ -188,7 +205,10 @@ await ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Imagem 
       print('Longitude: ${locationData.longitude}');
       print(
           'Data e Hora: ${DateTime.fromMillisecondsSinceEpoch(locationData.time!.toInt())}');
-    await ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Latitude: ${locationData.latitude}'+' Longitude: ${locationData.longitude}'+' Data e Hora: ${DateTime.fromMillisecondsSinceEpoch(locationData.time!.toInt())}')));
+      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Latitude: ${locationData.latitude}' +
+              ' Longitude: ${locationData.longitude}' +
+              ' Data e Hora: ${DateTime.fromMillisecondsSinceEpoch(locationData.time!.toInt())}')));
     } catch (e) {
       print(e);
     }
@@ -211,10 +231,9 @@ class ImagemFinal extends StatelessWidget {
       width: 600,
       height: 600,
       child: Stack(children: [
-          xFile != null ? Image.file(File(xFile!.path)) : SizedBox(),
-          Positioned(top: 32, left: 32, child: Text(description))
-        ]
-      ),
+        xFile != null ? Image.file(File(xFile!.path)) : SizedBox(),
+        Positioned(top: 32, left: 32, child: Text(description))
+      ]),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -21,10 +22,7 @@ class _LoginPagesState extends State<LoginPages> {
     _googleSignIn = GoogleSignIn(
       scopes: [
         'https://www.googleapis.com/auth/userinfo.email',
-
-       
         'https://www.googleapis.com/auth/userinfo.profile',
-
       ],
     );
     // FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -42,58 +40,53 @@ class _LoginPagesState extends State<LoginPages> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             padding: EdgeInsets.zero,
-            child: Stack(children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: const Image(
-                  image: AssetImage('assets/images/loginBack.png'),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: const Image(
+                    image: AssetImage('assets/images/loginBack.png'),
+                  ),
                 ),
-              ),
-              Positioned(
-                bottom: 50,
-                left: 80,
-                child: Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () async {
+                Padding(
+                  padding: const EdgeInsets.only(top: 300.0),
+                  child: SignInButton(
+                    Buttons.GoogleDark,
+                    text: "Entrar com o Google",
+                    onPressed: () async {
+                      //pega as credenciais do usuário logado
+                      GoogleSignInAccount? _googleSignInAccount =
+                          await _googleSignIn.signIn();
+                      print("account ${_googleSignInAccount}");
+                      //Nulo - Login não deu certo
+                      //GoogleSignInAccount - Login deu certo
+
+                      if (_googleSignInAccount == null) {
+                        //não logou certo
+                      } else {
+                        //login deu certo
                         //pega as credenciais do usuário logado
-                        GoogleSignInAccount? _googleSignInAccount =
-                            await _googleSignIn.signIn();
-                        print("account ${_googleSignInAccount}");
-                        //Nulo - Login não deu certo
-                        //GoogleSignInAccount - Login deu certo
+                        GoogleSignInAuthentication? _googleSignInCredential =
+                            await _googleSignInAccount.authentication;
+                        print(_googleSignInCredential.accessToken);
+                        //cria credencial do login no firebase
+                        final credential = GoogleAuthProvider.credential(
+                          accessToken: _googleSignInCredential.accessToken,
+                          idToken: _googleSignInCredential.idToken,
+                        );
 
-                        if (_googleSignInAccount == null) {
-                          //não logou certo
-                        } else {
-                          //login deu certo
-                          //pega as credenciais do usuário logado
-                          GoogleSignInAuthentication? _googleSignInCredential =
-                              await _googleSignInAccount.authentication;
-                          print(_googleSignInCredential.accessToken);
-                          //cria credencial do login no firebase
-                          final credential = GoogleAuthProvider.credential(
-                            accessToken: _googleSignInCredential.accessToken,
-                            idToken: _googleSignInCredential.idToken,
-                          );
-
-                          //conecta no firebase
-                          FirebaseAuth.instance
-                              .signInWithCredential(credential);
-                          //vai para tela home
-                          Get.off(HomePages());
-                        }
-                      },
-                      child: const Text('LOG IN Google'),
-                    ),
-                    const SizedBox(width: 30),
-                    // ElevatedButton(
-                    // onPressed: () => Get.to(const RegisterPages()),
-                    // child: const Text('REGISTRAR'))
-                  ],
+                        //conecta no firebase
+                        FirebaseAuth.instance.signInWithCredential(credential);
+                        //vai para tela home
+                        Get.off(HomePages());
+                      }
+                    },
+                  ),
                 ),
-              )
-            ])));
+                const SizedBox(width: 30)
+              ],
+            )));
   }
 }
