@@ -127,72 +127,75 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Localizador de Área'),
       ),
-      body: Column(
-        children: [
-          // Expanded(
-          //   child: _videoController!.value.isInitialized
-          //       ? AspectRatio(
-          //           aspectRatio: _videoController!.value.aspectRatio,
-          //           child: VideoPlayer(_videoController!),
-          //         )
-          //       : const CircularProgressIndicator(),
-          // ),
-          (xFile != null)
-              ? Screenshot(controller: screenshotController, child: imagemFinal)
-              : SizedBox(),
-          ElevatedButton(
-//             onPressed: () async {
-//               print("*******");
-//               //var status = await permission.Permission.camera.status;
-//               permission.PermissionStatus ps =
-//                   await permission.Permission.camera.request();
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Expanded(
+            //   child: _videoController!.value.isInitialized
+            //       ? AspectRatio(
+            //           aspectRatio: _videoController!.value.aspectRatio,
+            //           child: VideoPlayer(_videoController!),
+            //         )
+            //       : const CircularProgressIndicator(),
+            // ),
+            (xFile != null)
+                ? Screenshot(
+                    controller: screenshotController, child: imagemFinal)
+                : SizedBox(),
+            ElevatedButton(
+              //             onPressed: () async {
+              //               print("*******");
+              //               //var status = await permission.Permission.camera.status;
+              //               permission.PermissionStatus ps =
+              //                   await permission.Permission.camera.request();
 
-//               print("yyyyy ${ps}");
-//               // if (status.isDenied) {
-//               //   print("permissao negada");
-//               //   // We didn't ask for permission yet or the permission has been denied before, but not permanently.
-//               // }
-// // You can can also directly ask the permission about its status.
-// // if (await Permission.location.isRestricted) {
-// //   // The OS restricts access, for example because of parental controls.
-// //   print("permissao parent");
-// // }
-//               XFile? xFilee = await _imagePicker.pickImage(
-//                   source: ImageSource.camera,
-//                   imageQuality: 100,);
-//               XFile? xFile = await _imagePicker.pickMedia();
-//             },
-            onPressed: _takePicture,
-            child: const Text('Tirar Foto'),
-          ),
-          ElevatedButton(
-            //onPressed: _getLocation,
-            onPressed: () {
-              _getLocation();
-            },
-            child: const Text('Obter Localização'),
-          ),
+              //               print("yyyyy ${ps}");
+              //               // if (status.isDenied) {
+              //               //   print("permissao negada");
+              //               //   // We didn't ask for permission yet or the permission has been denied before, but not permanently.
+              //               // }
+              // // You can can also directly ask the permission about its status.
+              // // if (await Permission.location.isRestricted) {
+              // //   // The OS restricts access, for example because of parental controls.
+              // //   print("permissao parent");
+              // // }
+              //               XFile? xFilee = await _imagePicker.pickImage(
+              //                   source: ImageSource.camera,
+              //                   imageQuality: 100,);
+              //               XFile? xFile = await _imagePicker.pickMedia();
+              //             },
+              onPressed: _takePicture,
+              child: const Text('Tirar Foto'),
+            ),
+            ElevatedButton(
+              //onPressed: _getLocation,
+              onPressed: () {
+                _getLocation();
+              },
+              child: const Text('Obter Localização'),
+            ),
 
-          (xFile != null)
-              ? (_isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () async {
-                        setState(() {
-                          _isLoading = true;
-                        });
+            (xFile != null)
+                ? (_isLoading
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                        onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
 
-                        await StorageClient().uploadImageToFirebase(
-                            imageFile: File(xFile!.path));
+                          await StorageClient().uploadImageToFirebase(
+                              imageFile: File(xFile!.path));
 
-                        setState(() {
-                          _isLoading = false;
-                        });
-                      },
-                      child: const Text('Enviar foto'),
-                    ))
-              : const SizedBox.shrink(),
-        ],
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                        child: const Text('Enviar foto'),
+                      ))
+                : const SizedBox.shrink(),
+          ],
+        ),
       ),
     );
   }
