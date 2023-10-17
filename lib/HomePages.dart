@@ -183,10 +183,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           setState(() {
                             _isLoading = true;
                           });
-
+                         print('Test one');
                           await StorageClient().uploadImageToFirebase(
                               imageFile: File(xFile!.path));
-
+                             print('Test Raí ');
                           setState(() {
                             _isLoading = false;
                           });
